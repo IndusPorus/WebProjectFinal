@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Competitive Programming</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html, body {
+      height: 100%;
+      font-family: Arial, sans-serif;
+      background-image: url(new.webp);
+      background-repeat: no-repeat;
+      background-position: center;
+      background-attachment: fixed;
+      background-size: cover;
+    }
+    .menu {
+      position: fixed;
+      left: -20%;
+      top: 0;
+      width: 20%;
+      height: 100vh;
+      background: #2c3e50;
+      transition: left 0.5s ease;
+      z-index: 1000;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    }
+    .menu.active {
+      left: 0;
+    }
+    .menu-button {
+      position: fixed;
+      left: 20px;
+      top: 20px;
+      padding: 10px 20px;
+      background: #2c3e50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      z-index: 1001;
+    }
+    .menu-button:hover {
+      background: #34495e;
+    }
+    .platform-buttons {
+      padding-top: 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .platform-button {
+      padding: 15px 20px;
+      margin: 0 10px;
+      background: #3498db;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background 0.3s ease;
+    }
+    .platform-button:hover {
+      background: #2980b9;
+    }
+    .platform-button:nth-child(2) {
+      background: #e74c3c;
+    }
+    .platform-button:nth-child(2):hover {
+      background: #c0392b;
+    }
+    .platform-button:nth-child(3) {
+      background: #2ecc71;
+    }
+    .platform-button:nth-child(3):hover {
+      background: #27ae60;
+    }
+    .back-button {
+      position: fixed;
+      right: 20px;
+      top: 20px;
+      padding: 10px 20px;
+      background: #2c3e50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      z-index: 1001;
+      font-size: 16px;
+    }
+    .back-button:hover {
+      background: #34495e;
+    }
+  </style>
+</head>
+<body>
+  <button class="menu-button" onclick="toggleMenu()">☰ Menu</button>
+  <button class="back-button" onclick="window.location.href='skills.html'">Back to Skills</button>
+  <div class="menu">
+    <div class="platform-buttons">
+      <button class="platform-button" onclick="window.open('https://codeforces.com/profile/Manas23', '_blank')">Codeforces</button>
+      <button class="platform-button" onclick="window.open('https://leetcode.com/u/KanishkDwivedi/', '_blank')">LeetCode</button>
+      <button class="platform-button" onclick="window.open('https://www.codechef.com/users/kanishkdwivedi', '_blank')">CodeChef</button>
+    </div>
+  </div>
+
+  <script>
+    function toggleMenu() {
+      document.querySelector('.menu').classList.toggle('active');
+    }
+  </script>
+</body>
+</html> 

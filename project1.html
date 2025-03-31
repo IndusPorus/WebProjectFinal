@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit Converter</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html, body {
+      height: 100%;
+      font-family: Arial, sans-serif;
+      background-image: url(new.webp);
+      background-repeat: no-repeat;
+      background-position: center;
+      background-attachment: fixed;
+      background-size: cover;
+    }
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      padding: 20px;
+    }
+    .converter-box {
+      background: #564b74;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 600px;
+    }
+    h1 {
+      color: white;
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 2em;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+    }
+    .input-group {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      color: white;
+      margin-bottom: 8px;
+      font-size: 1em;
+    }
+    select, input {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 5px;
+      font-size: 1em;
+      background-color: rgba(255, 255, 255, 0.8);
+    }
+    .converter-controls {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .converter-controls > div {
+      flex: 1;
+    }
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      background-color: #628879;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .btn:hover {
+      background-color: #0eb824;
+      transform: translateY(-2px);
+    }
+    .result {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 15px;
+      border-radius: 5px;
+      color: white;
+      text-align: center;
+      font-size: 1.2em;
+      margin-top: 20px;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .back-button {
+      position: fixed;
+      right: 20px;
+      top: 20px;
+      padding: 10px 20px;
+      background: #2c3e50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      z-index: 1001;
+      font-size: 16px;
+      transition: background 0.3s;
+    }
+    .back-button:hover {
+      background: #34495e;
+    }
+    @media (max-width: 768px) {
+      .converter-controls {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <button class="back-button" onclick="window.location.href='projects.html'">Back to Projects</button>
+  <div class="container">
+    <div class="converter-box">
+      <h1>Unit Converter</h1>
+      <div class="converter-controls">
+        <div class="input-group">
+          <label for="fromValue">Value</label>
+          <input type="number" id="fromValue" placeholder="Enter value">
+        </div>
+        <div class="input-group">
+          <label for="fromUnit">From</label>
+          <select id="fromUnit">
+            <option value="km">Kilometer</option>
+            <option value="m" selected>Meter</option>
+            <option value="cm">Centimeter</option>
+            <option value="mm">Millimeter</option>
+            <option value="mi">Mile</option>
+            <option value="yd">Yard</option>
+            <option value="ft">Foot</option>
+            <option value="in">Inch</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label for="toUnit">To</label>
+          <select id="toUnit">
+            <option value="km">Kilometer</option>
+            <option value="m">Meter</option>
+            <option value="cm" selected>Centimeter</option>
+            <option value="mm">Millimeter</option>
+            <option value="mi">Mile</option>
+            <option value="yd">Yard</option>
+            <option value="ft">Foot</option>
+            <option value="in">Inch</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn" onclick="convert()">Convert</button>
+      <div class="result" id="result">Result will appear here</div>
+    </div>
+  </div>
+
+  <script>
+    function convert() {
+      const fromValue = parseFloat(document.getElementById('fromValue').value);
+      const fromUnit = document.getElementById('fromUnit').value;
+      const toUnit = document.getElementById('toUnit').value;
+      const resultElement = document.getElementById('result');
+      
+      if (isNaN(fromValue)) {
+        resultElement.textContent = 'Please enter a valid number';
+        return;
+      }
+      
+      // Convert to base unit (meters)
+      const unitToMeter = {
+        'km': 1000,
+        'm': 1,
+        'cm': 0.01,
+        'mm': 0.001,
+        'mi': 1609.34,
+        'yd': 0.9144,
+        'ft': 0.3048,
+        'in': 0.0254
+      };
+      
+      const valueInMeters = fromValue * unitToMeter[fromUnit];
+      const result = valueInMeters / unitToMeter[toUnit];
+      
+      resultElement.textContent = `${fromValue} ${fromUnit} = ${result.toFixed(6)} ${toUnit}`;
+    }
+  </script>
+</body>
+</html> 

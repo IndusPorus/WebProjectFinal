@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typing Speed Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html, body {
+            height: 100%;
+            font-family: Arial, sans-serif;
+            background-image: url(new.webp);
+            background-repeat: no-repeat;
+            background-position: center;
+            background-attachment: fixed;
+            background-size: cover;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 20px;
+        }
+        .typing-box {
+            background: #564b74;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 800px;
+            color: white;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2em;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        }
+        .text-display {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            line-height: 1.6;
+            min-height: 100px;
+        }
+        .text-input {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.8);
+        }
+        .text-input:focus {
+            outline: none;
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        }
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background: #628879;
+            color: white;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            background: #0eb824;
+            transform: translateY(-2px);
+        }
+        .stats {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .stat-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+        .stat-value {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        .back-button {
+            position: fixed;
+            right: 20px;
+            top: 20px;
+            padding: 10px 20px;
+            background: #2c3e50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 1001;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+        .back-button:hover {
+            background: #34495e;
+        }
+        @media (max-width: 768px) {
+            .controls {
+                flex-direction: column;
+            }
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="back-button" onclick="window.location.href='projects.html'">Back to Projects</button>
+    <div class="container">
+        <div class="typing-box">
+            <h1>Typing Speed Test</h1>
+            <div class="text-display" id="text-display"></div>
+            <textarea class="text-input" id="text-input" placeholder="Start typing here..." disabled></textarea>
+            <div class="controls">
+                <button class="btn" onclick="startTest()">Start Test</button>
+                <button class="btn" onclick="resetTest()">Reset</button>
+            </div>
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-label">Time</div>
+                    <div class="stat-value" id="time">0s</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">WPM</div>
+                    <div class="stat-value" id="wpm">0</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Accuracy</div>
+                    <div class="stat-value" id="accuracy">0%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const textDisplay = document.getElementById('text-display');
+        const textInput = document.getElementById('text-input');
+        const timeElement = document.getElementById('time');
+        const wpmElement = document.getElementById('wpm');
+        const accuracyElement = document.getElementById('accuracy');
+
+        const texts = [
+            "The quick brown fox jumps over the lazy dog.",
+            "To be or not to be, that is the question.",
+            "All that glitters is not gold.",
+            "A journey of a thousand miles begins with a single step.",
+            "Practice makes perfect. If you don't practice, you don't deserve to win. Sometimes you win, sometimes you learn."
+        ];
+
+        let currentText = '';
+        let startTime;
+        let timer;
+        let isTestActive = false;
+
+        function getRandomText() {
+            return texts[Math.floor(Math.random() * texts.length)];
+        }
+
+        function startTest() {
+            if (isTestActive) return;
+            
+            currentText = getRandomText();
+            textDisplay.textContent = currentText;
+            textInput.value = '';
+            textInput.disabled = false;
+            textInput.focus();
+            
+            startTime = new Date();
+            isTestActive = true;
+            
+            timer = setInterval(updateStats, 1000);
+        }
+
+        function updateStats() {
+            const currentTime = new Date();
+            const timeElapsed = Math.floor((currentTime - startTime) / 1000);
+            timeElement.textContent = `${timeElapsed}s`;
+
+            const wordsTyped = textInput.value.trim().split(/\s+/).length;
+            const minutes = timeElapsed / 60;
+            const wpm = Math.round(wordsTyped / minutes);
+            wpmElement.textContent = wpm;
+
+            const accuracy = calculateAccuracy();
+            accuracyElement.textContent = `${accuracy}%`;
+
+            if (textInput.value.length === currentText.length) {
+                endTest();
+            }
+        }
+
+        function calculateAccuracy() {
+            const correctChars = textInput.value.split('').filter((char, index) => char === currentText[index]).length;
+            return Math.round((correctChars / textInput.value.length) * 100) || 0;
+        }
+
+        function endTest() {
+            clearInterval(timer);
+            textInput.disabled = true;
+            isTestActive = false;
+        }
+
+        function resetTest() {
+            clearInterval(timer);
+            textDisplay.textContent = '';
+            textInput.value = '';
+            textInput.disabled = true;
+            timeElement.textContent = '0s';
+            wpmElement.textContent = '0';
+            accuracyElement.textContent = '0%';
+            isTestActive = false;
+        }
+    </script>
+</body>
+</html>

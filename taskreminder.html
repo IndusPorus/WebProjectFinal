@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Reminder App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 40%;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            margin-top: 50px;
+            box-shadow: 0px 0px 10px gray;
+            border-radius: 8px;
+        }
+
+        .task-input {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        input, button {
+            padding: 10px;
+            margin: 5px;
+        }
+
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            padding: 10px;
+            background: #ddd;
+            margin: 5px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        li.completed {
+            text-decoration: line-through;
+            background-color: #a4e5a4;
+        }
+
+        .delete-btn {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .delete-btn:hover {
+            background-color: darkred;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Task Reminder App</h2>
+        <div class="task-input">
+            <input type="text" id="taskTitle" placeholder="Enter task..." required>
+            <input type="datetime-local" id="taskTime" required>
+            <button onclick="addTask()">Add Task</button>
+        </div>
+        <h3>Upcoming Tasks</h3>
+        <ul id="taskList"></ul>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            setInterval(checkReminders, 1000); // Check tasks every second
+        });
+
+        function addTask() {
+            let taskTitle = document.getElementById("taskTitle").value;
+            let taskTime = document.getElementById("taskTime").value;
+
+            if (taskTitle === "" || taskTime === "") {
+                alert("Please enter a task and select a due date.");
+                return;
+            }
+
+            let taskList = document.getElementById("taskList");
+
+            let li = document.createElement("li");
+            li.innerHTML = `${taskTitle} - <span class="time">${taskTime}</span>
+                <button class="delete-btn" onclick="removeTask(this)">Done</button>`;
+            li.setAttribute("data-time", taskTime);
+            taskList.appendChild(li);
+
+            document.getElementById("taskTitle").value = "";
+            document.getElementById("taskTime").value = "";
+        }
+
+        function checkReminders() {
+            let now = new Date().toISOString().slice(0, 16); // Get current time in "YYYY-MM-DDTHH:MM" format
+            let tasks = document.querySelectorAll("#taskList li");
+
+            tasks.forEach(task => {
+                let taskTime = task.getAttribute("data-time");
+
+                if (taskTime === now) {
+                    alert(`Task Reminder: ${task.innerText.split(" - ")[0]}`);
+                    task.classList.add("completed");
+                }
+            });
+        }
+
+        function removeTask(button) {
+            button.parentElement.remove();
+        }
+    </script>
+</body>
+</html>

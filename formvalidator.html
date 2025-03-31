@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Validator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html, body {
+            height: 100%;
+            font-family: Arial, sans-serif;
+            background-image: url(new.webp);
+            background-repeat: no-repeat;
+            background-position: center;
+            background-attachment: fixed;
+            background-size: cover;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .form-box {
+            background: #564b74;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 500px;
+            color: white;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2em;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #628879;
+            border-radius: 5px;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.9);
+            transition: all 0.3s ease;
+        }
+        input:focus {
+            outline: none;
+            border-color: #0eb824;
+            box-shadow: 0 0 5px rgba(14, 184, 36, 0.3);
+        }
+        .error {
+            color: #ff6b6b;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        .success {
+            color: #0eb824;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background: #628879;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .submit-btn:hover {
+            background: #0eb824;
+            transform: translateY(-2px);
+        }
+        .back-button {
+            position: fixed;
+            right: 20px;
+            top: 20px;
+            padding: 10px 20px;
+            background: #2c3e50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 1001;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+        .back-button:hover {
+            background: #34495e;
+        }
+        .form-status {
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+        .form-status.success {
+            background: rgba(14, 184, 36, 0.2);
+            color: #0eb824;
+        }
+        .form-status.error {
+            background: rgba(255, 107, 107, 0.2);
+            color: #ff6b6b;
+        }
+        @media (max-width: 768px) {
+            .form-box {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="back-button" onclick="window.location.href='projects.html'">Back to Projects</button>
+    <div class="container">
+        <div class="form-box">
+            <h1>Form Validator</h1>
+            <form id="validationForm">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required>
+                    <div class="error" id="usernameError">Username must be at least 3 characters long</div>
+                    <div class="success" id="usernameSuccess">Username is valid!</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                    <div class="error" id="emailError">Please enter a valid email address</div>
+                    <div class="success" id="emailSuccess">Email is valid!</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                    <div class="error" id="passwordError">Password must be at least 8 characters long and contain numbers</div>
+                    <div class="success" id="passwordSuccess">Password is valid!</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                    <div class="error" id="confirmPasswordError">Passwords do not match</div>
+                    <div class="success" id="confirmPasswordSuccess">Passwords match!</div>
+                </div>
+
+                <button type="submit" class="submit-btn">Submit</button>
+            </form>
+            <div class="form-status" id="formStatus"></div>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('validationForm');
+        const formStatus = document.getElementById('formStatus');
+
+        // Validation rules
+        const rules = {
+            username: {
+                validate: (value) => value.length >= 3,
+                message: 'Username must be at least 3 characters long'
+            },
+            email: {
+                validate: (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
+                message: 'Please enter a valid email address'
+            },
+            password: {
+                validate: (value) => value.length >= 8 && /\d/.test(value),
+                message: 'Password must be at least 8 characters long and contain numbers'
+            },
+            confirmPassword: {
+                validate: (value) => value === document.getElementById('password').value,
+                message: 'Passwords do not match'
+            }
+        };
+
+        // Real-time validation
+        form.querySelectorAll('input').forEach(input => {
+            input.addEventListener('input', () => {
+                validateField(input);
+            });
+        });
+
+        // Field validation function
+        function validateField(input) {
+            const field = input.id;
+            const value = input.value;
+            const errorElement = document.getElementById(`${field}Error`);
+            const successElement = document.getElementById(`${field}Success`);
+            const rule = rules[field];
+
+            if (rule.validate(value)) {
+                input.style.borderColor = '#0eb824';
+                errorElement.style.display = 'none';
+                successElement.style.display = 'block';
+                return true;
+            } else {
+                input.style.borderColor = '#ff6b6b';
+                errorElement.style.display = 'block';
+                successElement.style.display = 'none';
+                return false;
+            }
+        }
+
+        // Form submission
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            let isValid = true;
+            form.querySelectorAll('input').forEach(input => {
+                if (!validateField(input)) {
+                    isValid = false;
+                }
+            });
+
+            if (isValid) {
+                formStatus.textContent = 'Form submitted successfully!';
+                formStatus.className = 'form-status success';
+                formStatus.style.display = 'block';
+                form.reset();
+            } else {
+                formStatus.textContent = 'Please fix the errors before submitting.';
+                formStatus.className = 'form-status error';
+                formStatus.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html> 

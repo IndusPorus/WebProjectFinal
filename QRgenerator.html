@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Code Generator</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html, body {
+      height: 100%;
+      font-family: Arial, sans-serif;
+      background-image: url(new.webp);
+      background-repeat: no-repeat;
+      background-position: center;
+      background-attachment: fixed;
+      background-size: cover;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .generator-box {
+      background: #564b74;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 500px;
+      color: white;
+      text-align: center;
+    }
+    h1 {
+      margin-bottom: 30px;
+      font-size: 2em;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+    }
+    .input-group {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      border: 2px solid #628879;
+      border-radius: 5px;
+      font-size: 16px;
+      background: rgba(255, 255, 255, 0.9);
+      transition: all 0.3s ease;
+    }
+    input:focus, select:focus {
+      outline: none;
+      border-color: #0eb824;
+      box-shadow: 0 0 5px rgba(14, 184, 36, 0.3);
+    }
+    .qr-container {
+      margin: 20px 0;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      min-height: 200px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    #qrcode {
+      max-width: 200px;
+      width: 100%;
+      height: auto;
+    }
+    .btn {
+      padding: 10px 20px;
+      margin: 0 10px;
+      border: none;
+      border-radius: 5px;
+      background: #628879;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .btn:hover {
+      background: #0eb824;
+      transform: translateY(-2px);
+    }
+    .back-button {
+      position: fixed;
+      right: 20px;
+      top: 20px;
+      padding: 10px 20px;
+      background: #2c3e50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      z-index: 1001;
+      font-size: 16px;
+      transition: background 0.3s;
+    }
+    .back-button:hover {
+      background: #34495e;
+    }
+    .error {
+      color: #ff6b6b;
+      margin-top: 5px;
+      display: none;
+    }
+    @media (max-width: 768px) {
+      .generator-box {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <button class="back-button" onclick="window.location.href='projects.html'">Back to Projects</button>
+  <div class="container">
+    <div class="generator-box">
+      <h1>QR Code Generator</h1>
+      <div class="input-group">
+        <label for="qr-text">Enter Text or URL</label>
+        <input type="text" id="qr-text" placeholder="Enter text or URL to generate QR code">
+        <div class="error" id="error-message">Please enter some text or URL</div>
+      </div>
+      <div class="input-group">
+        <label for="qr-size">QR Code Size</label>
+        <select id="qr-size">
+          <option value="100">Small (100x100)</option>
+          <option value="200" selected>Medium (200x200)</option>
+          <option value="300">Large (300x300)</option>
+        </select>
+      </div>
+      <div class="qr-container">
+        <div id="qrcode"></div>
+      </div>
+      <div>
+        <button class="btn" onclick="generateQR()">Generate QR Code</button>
+        <button class="btn" onclick="downloadQR()">Download QR Code</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const qrText = document.getElementById('qr-text');
+    const qrSize = document.getElementById('qr-size');
+    const qrContainer = document.getElementById('qrcode');
+    const errorMessage = document.getElementById('error-message');
+    let qrcode = null;
+
+    function generateQR() {
+      const text = qrText.value.trim();
+      const size = parseInt(qrSize.value);
+
+      if (!text) {
+        errorMessage.style.display = 'block';
+        return;
+      }
+
+      errorMessage.style.display = 'none';
+      
+      // Clear previous QR code
+      qrContainer.innerHTML = '';
+      
+      // Create new QR code
+      qrcode = new QRCode(qrContainer, {
+        text: text,
+        width: size,
+        height: size,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+      });
+    }
+
+    function downloadQR() {
+      const text = qrText.value.trim();
+      if (!text) {
+        errorMessage.style.display = 'block';
+        return;
+      }
+
+      const qrImage = qrContainer.querySelector('img');
+      if (!qrImage) {
+        errorMessage.textContent = 'Please generate a QR code first';
+        errorMessage.style.display = 'block';
+        return;
+      }
+
+      const link = document.createElement('a');
+      link.download = 'qr-code.png';
+      link.href = qrImage.src;
+      link.click();
+    }
+
+    // Generate QR code when text changes
+    qrText.addEventListener('input', generateQR);
+    qrSize.addEventListener('change', generateQR);
+
+    // Initial QR code generation
+    generateQR();
+  </script>
+</body>
+</html>

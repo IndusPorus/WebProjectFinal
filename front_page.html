@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html, body {
+            height: 100%;
+            font-family: Arial, sans-serif;
+            background-image: url(new.webp);
+            background-repeat: no-repeat;
+            background-position: center;
+            background-attachment: fixed;
+            background-size: cover;
+        }
+        .welcome-text {
+            position: fixed;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            color: black;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            animation: fadeIn 2s ease-in forwards;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -20px);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, 0);
+            }
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            opacity: 80%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .box {
+            background: #564b74;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+        }
+        .box h1 {
+            margin-bottom: 20px;
+        }
+        .box button {
+            margin: 10px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background: #628879;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .box button:hover {
+            background: #0eb824;
+        }
+        .contact-button {
+            position: fixed;
+            left: 20px;
+            bottom: 20px;
+            padding: 10px 20px;
+            background: #564b74;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            z-index: 1001;
+        }
+        .contact-button:hover {
+            background: #0eb824;
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="welcome-text">Welcome to My Portfolio</div>
+    <div class="container">
+        <div class="box">
+            <button onclick="window.location.href='about.html'">About Me</button>
+            <button onclick="window.location.href='skills.html'">Skills</button>
+        </div>
+    </div>
+    <button class="contact-button" onclick="window.location.href='contact.html'">Contact Me</button>
+</body>
+</html>

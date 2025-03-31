@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Projects</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html, body {
+      height: 100%;
+      font-family: Arial, sans-serif;
+      background-image: url(new.webp);
+      background-repeat: no-repeat;
+      background-position: center;
+      background-attachment: fixed;
+      background-size: cover;
+    }
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      opacity: 80%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .box {
+      background: #564b74;
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      width: 100%;
+      max-width: 400px;
+    }
+    .box h1 {
+      margin-bottom: 20px;
+      color: white;
+    }
+    .project-button {
+      margin: 10px;
+      padding: 15px 30px;
+      border: none;
+      border-radius: 5px;
+      background: #628879;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+      width: 80%;
+      max-width: 300px;
+      transition: all 0.3s ease;
+      opacity: 0;
+      transform: translateY(-50px);
+      animation: slideDown 0.5s ease forwards;
+      position: relative;
+    }
+    .project-button:nth-child(1) { animation-delay: 0.1s; }
+    .project-button:nth-child(2) { animation-delay: 0.2s; }
+    .project-button:nth-child(3) { animation-delay: 0.3s; }
+    .project-button:nth-child(4) { animation-delay: 0.4s; }
+    .project-button:nth-child(5) { animation-delay: 0.5s; }
+
+    @keyframes slideDown {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .project-button:hover {
+      background: #0eb824;
+      transform: scale(1.1);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    .back-button {
+      position: fixed;
+      right: 20px;
+      top: 20px;
+      padding: 10px 20px;
+      background: #2c3e50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      z-index: 1001;
+      font-size: 16px;
+      opacity: 0;
+      animation: fadeIn 0.5s ease forwards;
+    }
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+    .back-button:hover {
+      background: #34495e;
+    }
+    .project-button::before {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 8px 12px;
+      background: rgba(44, 62, 80, 0.9);
+      color: white;
+      border-radius: 5px;
+      font-size: 14px;
+      white-space: nowrap;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      z-index: 1000;
+      width: max-content;
+      max-width: 300px;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+    .project-button:hover::before {
+      opacity: 1;
+      visibility: visible;
+      bottom: 120%;
+    }
+    .project-button::after {
+      content: '';
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-top: 6px solid rgba(44, 62, 80, 0.9);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    .project-button:hover::after {
+      opacity: 1;
+      visibility: visible;
+      bottom: 120%;
+    }
+  </style>
+</head>
+<body>
+  <button class="back-button" onclick="window.location.href='skills.html'">Back to Skills</button>
+  <div class="container">
+    <div class="box">
+      <h1>My Projects</h1>
+      <button class="project-button" onclick="window.location.href='project1.html'" data-tooltip="Convert between different units of measurement including length, weight, temperature, and more. Real-time conversion with instant results.">Unit Converter</button>
+      <button class="project-button" onclick="window.location.href='typingspeedtest.html'" data-tooltip="Test and improve your typing speed with real-time feedback. Features include WPM calculation, accuracy tracking, and multiple difficulty levels.">Typing Speed Test</button>
+      <button class="project-button" onclick="window.location.href='formvalidator.html'" data-tooltip="A comprehensive form validation tool that checks inputs in real-time. Includes validation for email, password, username, and more with instant feedback.">Form Validator</button>
+      <button class="project-button" onclick="window.location.href='memorygame.html'" data-tooltip="Test your memory with this classic card matching game. Features include move counter, pairs tracking, and a win celebration message.">Memory Game</button>
+      <button class="project-button" onclick="window.location.href='QRgenerator.html'" data-tooltip="Generate QR codes from text or URLs instantly. Customize size, download as PNG, and use for various purposes like sharing links or contact information.">QR Generator</button>
+      <button class="project-button" onclick="window.location.href='passwordstrength.html'" data-tooltip="Analyze password strength in real-time with visual feedback. Checks for length, complexity, and provides detailed requirements with instant validation.">Password Strength Checker</button>
+    </div>
+  </div>
+</body>
+</html> 

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Me</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html, body {
+      height: 100%;
+      font-family: Arial, sans-serif;
+      background-image: url(new.webp);
+      background-repeat: no-repeat;
+      background-position: center;
+      background-attachment: fixed;
+      background-size: cover;
+    }
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      opacity: 80%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .box {
+      background: #564b74;
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      width: 100%;
+      max-width: 500px;
+    }
+    .box h1 {
+      margin-bottom: 30px;
+      color: white;
+      font-size: 2em;
+    }
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: center;
+    }
+    .contact-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 15px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+    .contact-item:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-5px);
+    }
+    .icon {
+      width: 30px;
+      height: 30px;
+      margin-right: 15px;
+      color: white;
+      font-size: 1.5em;
+    }
+    .contact-text {
+      color: white;
+      font-size: 1.1em;
+    }
+    .contact-link {
+      text-decoration: none;
+      color: white;
+    }
+    .back-button {
+      position: fixed;
+      right: 20px;
+      top: 20px;
+      padding: 10px 20px;
+      background: #2c3e50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      z-index: 1001;
+      font-size: 16px;
+    }
+    .back-button:hover {
+      background: #34495e;
+    }
+  </style>
+</head>
+<body>
+  <button class="back-button" onclick="window.location.href='front_page.html'">Back to Home</button>
+  <div class="container">
+    <div class="box">
+      <h1>Contact Me</h1>
+      <div class="contact-info">
+        <a href="mailto:mdwivedigod@gmail.com" class="contact-link">
+          <div class="contact-item">
+            <div class="icon">✉️</div>
+            <div class="contact-text">mdwivedigod@gmail.com</div>
+          </div>
+        </a>
+        <a href="https://www.linkedin.com/in/kanishk-dwivedi-ab9020230/" target="_blank" rel="noopener" class="contact-link">
+          <div class="contact-item">
+            <div class="icon">🔗</div>
+            <div class="contact-text">LinkedIn Profile</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</body>
+</html> 
